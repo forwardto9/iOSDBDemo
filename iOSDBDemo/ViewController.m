@@ -55,6 +55,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     for (int i = 0; i < 9; ++i) {
         [self queryDataFromPlist:filePath k:@"key2"];
     }
+    [self userDefaultDemo];
     [self archiverDataDemo];
     [self serializeDataDemo];
     
@@ -111,15 +112,14 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
         status = YES;
         NSLog(@"[Plist] plist file existed!");
         NSError *removeItemError = nil;
-        [manager removeItemAtPath:[self archiverFilePath] error:&removeItemError];
+        [manager removeItemAtPath:[self plistFilePath] error:&removeItemError];
         if (removeItemError) {
             NSLog(@"[Plist] Remove Plist File Failed! Error info:%@", [removeItemError localizedDescription]);
         }
-    } else {
-        NSLog(@"[Plist] create plist file");
-        NSDictionary *plistData = @{@"key1":@111, @"key2":@"value2", @"key3": @YES, @"key4":@[@2,@3,@4], @"key5":@{@"key11":@"value11"}};
-        status = [plistData writeToFile:filePath atomically:YES];
     }
+    NSLog(@"[Plist] create plist file");
+    NSDictionary *plistData = @{@"key1":@111, @"key2":@"value2", @"key3": @YES, @"key4":@[@2,@3,@4], @"key5":@{@"key11":@"value11"}};
+    status = [plistData writeToFile:filePath atomically:YES];
     
     
     return status;
@@ -190,11 +190,14 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
 - (void)archiverDataDemo {
     
     NSError *removeItemError = nil;
-    [[NSFileManager defaultManager] removeItemAtPath:[self archiverFilePath] error:&removeItemError];
-    if (removeItemError) {
-        NSLog(@"[Archiver] Remove Archiver File Failed! Error info:%@", [removeItemError localizedDescription]);
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:[self archiverFilePath]]) {
+        [manager removeItemAtPath:[self archiverFilePath] error:&removeItemError];
+        if (removeItemError) {
+            NSLog(@"[Archiver] Remove Archiver File Failed! Error info:%@", [removeItemError localizedDescription]);
+        }
     }
-    
+
     NSMutableArray *persons = [NSMutableArray new];
     for (int i = 0; i < 99; ++i) {
         Person *person = [[Person alloc] initWithName:@"uwei" age:i property:@{@"where":@"shenzhen"} time:[NSDate date]];
@@ -260,11 +263,16 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     if (errorString) {
         NSLog(@"[Serialization] serialization error:%@", errorString.localizedDescription);
     } else {
-        NSError *removeItemError = nil;
-        [[NSFileManager defaultManager] removeItemAtPath:[self archiverFilePath] error:&removeItemError];
-        if (removeItemError) {
-            NSLog(@"[Serialization] Remove Serialization File Failed! Error info:%@", [removeItemError localizedDescription]);
+        
+        NSFileManager *manager  = [NSFileManager defaultManager];
+        if ([manager fileExistsAtPath:[self serializationFilePath]]) {
+            NSError *removeItemError = nil;
+            [manager removeItemAtPath:[self serializationFilePath] error:&removeItemError];
+            if (removeItemError) {
+                NSLog(@"[Serialization] Remove Serialization File Failed! Error info:%@", [removeItemError localizedDescription]);
+            }
         }
+        
         [data writeToFile:[self serializationFilePath] atomically:YES];
     }
     
@@ -296,6 +304,16 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
 
 - (BOOL)connectSQLiteDB:(NSString *)dbPath {
     BOOL status = NO;
+    
+    NSFileManager *manager  = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:dbPath]) {
+        NSError *removeItemError = nil;
+        [manager removeItemAtPath:dbPath error:&removeItemError];
+        if (removeItemError) {
+            NSLog(@"[SQLite] Remove Serialization File Failed! Error info:%@", [removeItemError localizedDescription]);
+        }
+    }
+    
     status = sqlite3_open([dbPath UTF8String], &sqliteDB);
     if (status) {
         NSAssert(status, @"[SQLite] open sqilte db failed!");
@@ -315,6 +333,8 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
 
 - (BOOL)insertData:(id)data {
     BOOL status = NO;
+    
+    
     
     NSString *createTableSQL = @"create table if not exists data_table (id integer primary key autoincrement, value txt not null, note txt)";
     char * errorCreateMessage = NULL;
