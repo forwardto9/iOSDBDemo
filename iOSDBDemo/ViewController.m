@@ -48,9 +48,8 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     
     NSLog(@"Data :%@", [self dataFromPlist:filePath]);
     
-//    [self deleteDataFromPlist:filePath k:@"key1"];
-    
-//    NSLog(@"Data :%@", [self dataFromPlist:filePath]);
+    [self deleteDataFromPlist:filePath k:@"key1"];
+    NSLog(@"Data :%@", [self dataFromPlist:filePath]);
     
     
     for (int i = 0; i < 9; ++i) {
@@ -110,9 +109,14 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     NSFileManager *manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:filePath]) {
         status = YES;
-        NSLog(@"plist file existed!");
+        NSLog(@"[Plist] plist file existed!");
+        NSError *removeItemError = nil;
+        [manager removeItemAtPath:[self archiverFilePath] error:&removeItemError];
+        if (removeItemError) {
+            NSLog(@"[Plist] Remove Plist File Failed! Error info:%@", [removeItemError localizedDescription]);
+        }
     } else {
-        NSLog(@"create plist file");
+        NSLog(@"[Plist] create plist file");
         NSDictionary *plistData = @{@"key1":@111, @"key2":@"value2", @"key3": @YES, @"key4":@[@2,@3,@4], @"key5":@{@"key11":@"value11"}};
         status = [plistData writeToFile:filePath atomically:YES];
     }
@@ -139,7 +143,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
         if ([(NSString *)key isEqualToString:k]) {
             *stop = YES;
             [data removeObjectForKey:key];
-            NSLog(@"delete key pair OK!");
+            NSLog(@"[Plist] delete key pair OK!");
             
             // 3.需要重新写文件进行保存
             [data writeToFile:filePath atomically:YES];
@@ -179,11 +183,18 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     [userPreferences synchronize];
     
     NSURL *url = [userPreferences URLForKey:@"url"];
-    NSLog(@"url :%@",url.absoluteString);
+    NSLog(@"[UserDefaults] url :%@",url.absoluteString);
 }
 
 #pragma mark - Archiver Data Operation
 - (void)archiverDataDemo {
+    
+    NSError *removeItemError = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:[self archiverFilePath] error:&removeItemError];
+    if (removeItemError) {
+        NSLog(@"[Archiver] Remove Archiver File Failed! Error info:%@", [removeItemError localizedDescription]);
+    }
+    
     NSMutableArray *persons = [NSMutableArray new];
     for (int i = 0; i < 99; ++i) {
         Person *person = [[Person alloc] initWithName:@"uwei" age:i property:@{@"where":@"shenzhen"} time:[NSDate date]];
@@ -224,7 +235,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     [pss enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (((Person *)obj).age == 28) {
             *stop = YES;
-            NSLog(@"person name:%@, age:%lu, perperty:%@,now:%@", ((Person *)obj).name, ((Person *)obj).age, ((Person *)obj).property, ((Person *)obj).now);
+            NSLog(@"[Archiver] person name:%@, age:%lu, perperty:%@,now:%@", ((Person *)obj).name, ((Person *)obj).age, ((Person *)obj).property, ((Person *)obj).now);
         }
     }];
 }
@@ -247,8 +258,13 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     // NSPropertyListBinaryFormat_v1_0, Specifies the binary property list format.
     NSData *data = [NSPropertyListSerialization dataWithPropertyList:serializationData format:NSPropertyListBinaryFormat_v1_0 options:NSPropertyListImmutable error:&errorString];
     if (errorString) {
-        NSLog(@"serialization error:%@", errorString.localizedDescription);
+        NSLog(@"[Serialization] serialization error:%@", errorString.localizedDescription);
     } else {
+        NSError *removeItemError = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:[self archiverFilePath] error:&removeItemError];
+        if (removeItemError) {
+            NSLog(@"[Serialization] Remove Serialization File Failed! Error info:%@", [removeItemError localizedDescription]);
+        }
         [data writeToFile:[self serializationFilePath] atomically:YES];
     }
     
@@ -256,9 +272,9 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     NSError *err = nil;
     NSDictionary *dic = [NSPropertyListSerialization propertyListWithData:d options:NSPropertyListImmutable format:NULL error:&err];
     if (err) {
-        NSLog(@"deserialization error:%@", err.localizedDescription);
+        NSLog(@"[Serialization] deserialization error:%@", err.localizedDescription);
     } else {
-        NSLog(@"deserialization result :%@", dic);
+        NSLog(@"[Serialization] deserialization result :%@", dic);
     }
 }
 
@@ -282,9 +298,9 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     BOOL status = NO;
     status = sqlite3_open([dbPath UTF8String], &sqliteDB);
     if (status) {
-        NSAssert(status, @"open sqilte db failed!");
+        NSAssert(status, @"[SQLite] open sqilte db failed!");
     } else {
-        fprintf(stdout, "open sqlite db success!\n");
+        fprintf(stdout, "[SQLite] open sqlite db success!\n");
     }
     
     return status;
@@ -306,7 +322,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     if (status) {
         NSAssert(status != SQLITE_OK, [NSString stringWithUTF8String:errorCreateMessage]);
     } else {
-        NSLog(@"create table success!");
+        NSLog(@"[SQLite] create table success!");
     }
     
     NSString *createLogTableSQL = @"create table if not exists log_table (id integer primary key autoincrement, create_time txt)";
@@ -329,7 +345,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     if (status != SQLITE_OK) {
         NSAssert(1, [NSString stringWithUTF8String:errorInsertMessage]);
     } else {
-        NSLog(@"insert a record success!");
+        NSLog(@"[SQLite] insert a record success!");
     }
     
     /*
@@ -352,12 +368,12 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
         
         // execute compiled sql
         if (sqlite3_step(stmt) == SQLITE_DONE) {
-            NSLog(@"insert a recode success!");
+            NSLog(@"[SQLite] insert a recode success!");
         } else {
-            NSLog(@"insert a recode failed!");
+            NSLog(@"[SQLite] insert a recode failed!");
         }
     } else {
-        NSLog(@"insert a recode failed!");
+        NSLog(@"[SQLite] insert a recode failed!");
     }
     
     sqlite3_reset(stmt);
@@ -373,7 +389,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     char * deleteErrorMessage = NULL;
     status = sqlite3_exec(sqliteDB, [deleteSQL UTF8String], NULL, NULL, &deleteErrorMessage);
     if (deleteErrorMessage) {
-        NSLog(@"%@", [NSString stringWithUTF8String:deleteErrorMessage]);
+        NSLog(@"[SQLite] %@", [NSString stringWithUTF8String:deleteErrorMessage]);
     }
     
     return status;
@@ -386,7 +402,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     status = sqlite3_exec(sqliteDB, [querySQL UTF8String], callback, NULL, &queryErrorMessage);
     
     if (status != SQLITE_OK) {
-        NSLog(@"%@", [NSString stringWithUTF8String:queryErrorMessage]);
+        NSLog(@"[SQLite] %@", [NSString stringWithUTF8String:queryErrorMessage]);
     }
     
     char *query = "select * from data_table";
@@ -400,10 +416,10 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
             // ...
             char *note  = (char *)sqlite3_column_text(stmt, 2);
             
-            NSLog(@"ID = %d, value = %s, note = %s", ID, value, note);
+            NSLog(@"[SQLite] ID = %d, value = %s, note = %s", ID, value, note);
         }
     } else {
-        NSLog(@"query SQL exists error!");
+        NSLog(@"[SQLite] query SQL exists error!");
     }
     
     if (stmt) {
@@ -419,7 +435,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
 static int callback (void* data,int argc,char** argv,char**columnName) {
     fprintf(stdout, "%s\n", (const char *)data);
     for (int i = 0; i < argc; ++i) {
-        printf("%s = %s\n", columnName[i], argv[i]);
+        printf("[SQLite] %s = %s\n", columnName[i], argv[i]);
     }
     printf("\n");
     return 0;
@@ -478,7 +494,7 @@ static int callback (void* data,int argc,char** argv,char**columnName) {
             // 3. save context
             result = [context save:&error];
             if (error) {
-                NSLog(@"[CoreData delete data failed! error info:%@]", [error localizedDescription]);
+                NSLog(@"[CoreData] delete data failed! error info:%@", [error localizedDescription]);
             }
         }
 
@@ -508,7 +524,7 @@ static int callback (void* data,int argc,char** argv,char**columnName) {
         if ((!error) && (datas) && (datas.count > 0)) {
             result = YES;
             for (Book *book in datas) {
-                NSLog(@"author = %@, title = %@, copyright = %@, pageCount = %@", book.author, book.title, book.copyright, book.pageCount);
+                NSLog(@"[CoreData] author = %@, title = %@, copyright = %@, pageCount = %@", book.author, book.title, book.copyright, book.pageCount);
             }
         }
 
