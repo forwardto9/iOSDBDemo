@@ -93,6 +93,13 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     [self queryDataFromRealm];
     [self deleteDatafromRealm];
     [self queryDataFromRealm];
+    
+    [self insertDataIntoPasteboard];
+    [self queryDataFromPasteboard];
+    [self updateDataFromPasteboard];
+    [self queryDataFromPasteboard];
+    [self deleteDataFromPasteboard];
+    [self queryDataFromPasteboard];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -655,6 +662,75 @@ static int callback (void* data,int argc,char** argv,char**columnName) {
     [realm deleteObject:results.firstObject];
     [realm commitWriteTransaction];
 }
+
+#pragma mark - UIPasteboard Operation
+
+// A pasteboard is a named region of memory where data can be shared
+// A pasteboard must be identified by a unique name
+// When you write an object to a pasteboard, it is stored as a pasteboard item. A pasteboard item is one or more key-value pairs where the key is a string that identifies the representation type of the value.
+- (void)insertDataIntoPasteboard {
+//    UIPasteboard *pasteboard = [UIPasteboard pasteboardWithName:@"com.forwardto9.iOSDBDemo" create:YES];
+//    pasteboard.persistent    = YES;
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    // When users restart a device, the change count is reset to zero.
+    NSLog(@"generalPasteboard property: persistent = %d, name = %@, changeCount = %ld", pasteboard.persistent, pasteboard.name, (long)pasteboard.changeCount);
+    
+    // Calling this method replaces any items currently in the pasteboard.
+    // 将数字保存到剪切板中，就会遇到反解的问题，暂定是bug
+    [pasteboard setValue:@"123" forPasteboardType:@"com.uwei.Int"];
+    NSLog(@"generalPasteboard property: persistent = %d, name = %@, changeCount = %ld", pasteboard.persistent, pasteboard.name, (long)pasteboard.changeCount);
+    [pasteboard addItems:@[@{@"key1":@"value1"}]];
+    [pasteboard addItems:@[@{@"key2":@"value2"}]];
+    [pasteboard addItems:@[@{@"key3":@"value3"}]];
+}
+
+- (void)deleteDataFromPasteboard {
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.items = [NSArray array];
+}
+
+- (void)queryDataFromPasteboard {
+//    UIPasteboard *pasteboard = [UIPasteboard pasteboardWithName:@"com.forwardto9.iOSDBDemo" create:YES];
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    NSArray *items = [pasteboard items];
+//    NSArray *items = [pasteboard valuesForPasteboardType:@"com.uwei.Int" inItemSet:nil];
+    if (items.count > 0) {
+        NSLog(@"[Pasteboard] exits datas");
+    } else {
+        NSLog(@"[Pasteboard] not exits datas");
+    }
+    for (int i = 0; i < items.count; ++i) {
+        id obj = items[i];
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+            NSData *data = [(NSDictionary *)obj allValues][0];
+//            if (i == 0) {
+//                NSValue *value = [NSValue valueWithBytes:data.bytes objCType:@encode(NSInteger)];
+//                int x = 0;
+//                [value getValue:&x];
+//                const char * bytes = [data bytes];
+//                int num = atoi(bytes);
+//                NSLog(@"Item:%@ = %d", [(NSDictionary *)obj allKeys][0], num);
+//            } else {
+//                NSString *str = [NSString stringWithCString:data.bytes encoding:NSUTF8StringEncoding];
+//                NSLog(@"Item:%@ = %@", [(NSDictionary *)obj allKeys][0], str);
+//            }
+            id str = [NSString stringWithCString:data.bytes encoding:NSUTF8StringEncoding];
+            NSLog(@"[Pasteboard] Item:%@ = %@", [(NSDictionary *)obj allKeys][0], str);
+        }
+    }
+}
+
+- (void)updateDataFromPasteboard {
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    if ([pasteboard containsPasteboardTypes:@[@"com.uwei.Int"] inItemSet:nil]) {
+        NSLog(@"[Pasteboard] find!");
+        [pasteboard setValue:@"321" forPasteboardType:@"com.uwei.Int"];
+        NSLog(@"[Pasteboard] updated!");
+    } else {
+        NSLog(@"[Pasteboard] not find!");
+    }
+}
+
 
 
 @end
