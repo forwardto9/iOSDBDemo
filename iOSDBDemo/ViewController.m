@@ -692,8 +692,11 @@ static int callback (void* data,int argc,char** argv,char**columnName) {
 - (void)queryDataFromPasteboard {
 //    UIPasteboard *pasteboard = [UIPasteboard pasteboardWithName:@"com.forwardto9.iOSDBDemo" create:YES];
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    
+    // this code is not working
+//    id value = [pasteboard valueForPasteboardType:@"com.uwei.Int"];
+//    NSLog(@"[Pasteboard]value is %@", value);
     NSArray *items = [pasteboard items];
-//    NSArray *items = [pasteboard valuesForPasteboardType:@"com.uwei.Int" inItemSet:nil];
     if (items.count > 0) {
         NSLog(@"[Pasteboard] exits datas");
     } else {
