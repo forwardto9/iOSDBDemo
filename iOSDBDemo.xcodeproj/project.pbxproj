@@ -15,8 +15,6 @@
 		3CD802641D5EF4C4002FC4E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CD802631D5EF4C4002FC4E6 /* Assets.xcassets */; };
 		3CD802671D5EF4C4002FC4E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3CD802651D5EF4C4002FC4E6 /* LaunchScreen.storyboard */; };
 		3CD802701D5F0037002FC4E6 /* DemoPlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8026F1D5F0037002FC4E6 /* DemoPlist.plist */; };
-		C2107C3B1D7814AB005DFC4B /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2107C391D7814A5005DFC4B /* Realm.framework */; };
-		C2107C3C1D7814AB005DFC4B /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2107C391D7814A5005DFC4B /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2107C3F1D781C09005DFC4B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C2107C3E1D781C09005DFC4B /* libc++.tbd */; };
 		C221A7751D75112A0074E45D /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C221A7741D75112A0074E45D /* libsqlite3.0.tbd */; };
 		C221A7781D76B2B90074E45D /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C221A7761D76B2B90074E45D /* Model.xcdatamodeld */; };
@@ -25,21 +23,9 @@
 		C221A78C1D76C31B0074E45D /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = C221A78A1D76C31B0074E45D /* Book.m */; };
 		C22721F61D6410AD0064CA9A /* KeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C22721F51D6410AD0064CA9A /* KeychainManager.m */; };
 		C22721F81D643B7F0064CA9A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22721F71D643B7F0064CA9A /* Security.framework */; };
+		C22CEB7D1EFA380D005A40B3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22CEB7C1EFA380D005A40B3 /* CloudKit.framework */; };
+		C2C21D6B1D79422F00ADCC9E /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C21D6A1D79422F00ADCC9E /* Realm.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		C2107C3D1D7814AB005DFC4B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C2107C3C1D7814AB005DFC4B /* Realm.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3CB238DF1D6022DD00DC82D3 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
@@ -56,7 +42,6 @@
 		3CD802681D5EF4C4002FC4E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CD8026E1D5EF526002FC4E6 /* DBType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBType.h; sourceTree = "<group>"; };
 		3CD8026F1D5F0037002FC4E6 /* DemoPlist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DemoPlist.plist; sourceTree = "<group>"; };
-		C2107C391D7814A5005DFC4B /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = /Users/uwei/GitHub/DBDemo/iOSDBDemo/iOSDBDemo/Realm.framework; sourceTree = "<absolute>"; };
 		C2107C3E1D781C09005DFC4B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		C2107C401D78589D005DFC4B /* Core Data, FMDB, Realm 性能对比.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "Core Data, FMDB, Realm 性能对比.pdf"; path = "iOSDBDemo/Core Data, FMDB, Realm 性能对比.pdf"; sourceTree = "<group>"; };
 		C221A7741D75112A0074E45D /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
@@ -69,6 +54,9 @@
 		C22721F41D6410AD0064CA9A /* KeychainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainManager.h; sourceTree = "<group>"; };
 		C22721F51D6410AD0064CA9A /* KeychainManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainManager.m; sourceTree = "<group>"; };
 		C22721F71D643B7F0064CA9A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C22CEB7B1EFA380A005A40B3 /* iOSDBDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOSDBDemo.entitlements; sourceTree = "<group>"; };
+		C22CEB7C1EFA380D005A40B3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		C2C21D6A1D79422F00ADCC9E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = iOSDBDemo/Realm.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +67,9 @@
 				C2107C3F1D781C09005DFC4B /* libc++.tbd in Frameworks */,
 				C221A77A1D76B3C20074E45D /* CoreData.framework in Frameworks */,
 				C221A7751D75112A0074E45D /* libsqlite3.0.tbd in Frameworks */,
+				C22CEB7D1EFA380D005A40B3 /* CloudKit.framework in Frameworks */,
 				C22721F81D643B7F0064CA9A /* Security.framework in Frameworks */,
-				C2107C3B1D7814AB005DFC4B /* Realm.framework in Frameworks */,
+				C2C21D6B1D79422F00ADCC9E /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +79,7 @@
 		3CD8024B1D5EF4C4002FC4E6 = {
 			isa = PBXGroup;
 			children = (
+				C2C21D6A1D79422F00ADCC9E /* Realm.framework */,
 				C2107C401D78589D005DFC4B /* Core Data, FMDB, Realm 性能对比.pdf */,
 				C2107C3E1D781C09005DFC4B /* libc++.tbd */,
 				C221A7791D76B3C20074E45D /* CoreData.framework */,
@@ -97,6 +87,7 @@
 				C22721F71D643B7F0064CA9A /* Security.framework */,
 				3CD802561D5EF4C4002FC4E6 /* iOSDBDemo */,
 				3CD802551D5EF4C4002FC4E6 /* Products */,
+				C22CEB781EFA3787005A40B3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,6 +102,7 @@
 		3CD802561D5EF4C4002FC4E6 /* iOSDBDemo */ = {
 			isa = PBXGroup;
 			children = (
+				C22CEB7B1EFA380A005A40B3 /* iOSDBDemo.entitlements */,
 				3CD8025A1D5EF4C4002FC4E6 /* AppDelegate.h */,
 				3CD8025B1D5EF4C4002FC4E6 /* AppDelegate.m */,
 				3CD8025D1D5EF4C4002FC4E6 /* ViewController.h */,
@@ -143,6 +135,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C22CEB781EFA3787005A40B3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C22CEB7C1EFA380D005A40B3 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -153,7 +153,6 @@
 				3CD802501D5EF4C4002FC4E6 /* Sources */,
 				3CD802511D5EF4C4002FC4E6 /* Frameworks */,
 				3CD802521D5EF4C4002FC4E6 /* Resources */,
-				C2107C3D1D7814AB005DFC4B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -175,6 +174,16 @@
 				TargetAttributes = {
 					3CD802531D5EF4C4002FC4E6 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 299MFJ63GP;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -334,6 +343,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iOSDBDemo/iOSDBDemo.entitlements;
+				DEVELOPMENT_TEAM = 299MFJ63GP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/iOSDBDemo",
@@ -341,8 +352,10 @@
 				INFOPLIST_FILE = iOSDBDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = forwardto9.iOSDBDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.teg.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "beb2109e-cf72-4118-9c6c-79feb90054ac";
+				PROVISIONING_PROFILE_SPECIFIER = DevDemo;
 			};
 			name = Debug;
 		};
@@ -350,6 +363,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iOSDBDemo/iOSDBDemo.entitlements;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/iOSDBDemo",
@@ -357,8 +372,9 @@
 				INFOPLIST_FILE = iOSDBDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = forwardto9.iOSDBDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.teg.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

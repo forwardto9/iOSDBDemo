@@ -12,6 +12,7 @@
 #import <sqlite3.h>
 #import "Book.h"
 #import <Realm/Realm.h>
+#import <CloudKit/CloudKit.h>
 #define kTableName @"Book"
 
 // function pointer
@@ -32,6 +33,9 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
 @interface ViewController () {
     sqlite3 *sqliteDB;
 }
+
+@property (strong, nonatomic) CKDatabase *ckPublicDataBase;
+@property (strong, nonatomic) CKDatabase *ckPrivateDataBase;
 
 @end
 
@@ -100,6 +104,10 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     [self queryDataFromPasteboard];
     [self deleteDataFromPasteboard];
     [self queryDataFromPasteboard];
+    
+    [self connectToiCloud];
+//    [self insertiCloudData];
+    [self queryiCloudData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -734,6 +742,109 @@ static int callback (void* data,int argc,char** argv,char**columnName) {
     }
 }
 
+#pragma mark - iCloud
+- (BOOL)connectToiCloud {
+    CKContainer *shareContainer = [CKContainer containerWithIdentifier:@"iCloud.com.tencent.teg.demo"];
+    self.ckPublicDataBase = shareContainer.publicCloudDatabase;
+    self.ckPrivateDataBase = shareContainer.privateCloudDatabase;
+    
+    [[CKContainer defaultContainer] accountStatusWithCompletionHandler:^(CKAccountStatus accountStatus, NSError * _Nullable error) {
+        if (accountStatus == CKAccountStatusNoAccount) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"No account" preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
+        }
+    }];
+    
+    return (self.ckPrivateDataBase && self.ckPublicDataBase != nil);
+}
+
+- (void)insertiCloudData {
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:@"1010"];
+    CKRecord *record     = [[CKRecord alloc] initWithRecordType:@"Person" recordID:recordID];
+    record[@"name"] = @"uwei";
+    record[@"age"]  = @29;
+    [self.ckPublicDataBase saveRecord:record completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"save data to icloud failed:%@", error.localizedDescription);
+        } else {
+            NSLog(@"save data to icloud done!");
+        }
+    }];
+}
+
+- (void)queryiCloudData {
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:@"1010"];
+    [self.ckPublicDataBase fetchRecordWithID:recordID completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Fetch data from icloud failed:%@", error.localizedDescription);
+        } else {
+            NSLog(@"data is %@", record);
+        }
+    }];
+    
+    NSPredicate *fetchPredicate = [NSPredicate predicateWithFormat:@"age > %d", 20];
+    CKQuery *fetchQuery = [[CKQuery alloc] initWithRecordType:@"Person" predicate:fetchPredicate];
+    [self.ckPublicDataBase performQuery:fetchQuery inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Fetch data by using CKQuery from icloud failed:%@ ", error.localizedDescription);
+        } else {
+            NSLog(@"result is %@", results);
+        }
+    }];
+}
+
+- (void)updateiCloudData {
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:@"1010"];
+    [self.ckPublicDataBase fetchRecordWithID:recordID completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"update data from icloud failed:%@", error.localizedDescription);
+        } else {
+            record[@"name"] = @"test";
+            [self.ckPublicDataBase saveRecord:record completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
+                if (error) {
+                    //
+                    NSLog(@"update data from icloud failed:%@", error.localizedDescription);
+                } else {
+                    NSLog(@"update data from icloud done");
+                }
+            }];
+        }
+    }];
+}
+
+- (void)deleteiCloudData {
+    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:@"1010"];
+    [self.ckPublicDataBase deleteRecordWithID:recordID completionHandler:^(CKRecordID * _Nullable recordID, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"delete record failed:%@", error.localizedDescription);
+        } else {
+            NSLog(@"delete record OK");
+        }
+    }];
+}
+
+
+- (void)subscribeiCloud {
+//    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:@"1010"];
+    NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"age > %d", 100];
+    CKSubscription *subscription = [[CKSubscription alloc] initWithRecordType:@"Person" predicate:subPredicate options:CKSubscriptionOptionsFiresOnRecordUpdate];
+    CKNotificationInfo *nInfo = [CKNotificationInfo new];
+    nInfo.alertLocalizationKey = @"test";
+    nInfo.shouldBadge = YES;
+    [self.ckPublicDataBase saveSubscription:subscription completionHandler:^(CKSubscription * _Nullable subscription, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"save subscription error:%@", error.localizedDescription);
+        } else {
+            NSLog(@"save subscription OK");
+        }
+    }];
+}
 
 
 @end
