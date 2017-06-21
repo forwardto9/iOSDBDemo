@@ -108,6 +108,7 @@ typedef int(*SQLiteCallback)(void*,int,char**,char**);
     [self connectToiCloud];
 //    [self insertiCloudData];
     [self queryiCloudData];
+    [self subscribeiCloud];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -832,11 +833,14 @@ static int callback (void* data,int argc,char** argv,char**columnName) {
 
 - (void)subscribeiCloud {
 //    CKRecordID *recordID = [[CKRecordID alloc] initWithRecordName:@"1010"];
-    NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"age > %d", 100];
+    NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"name = %@", @"uwei"];
     CKSubscription *subscription = [[CKSubscription alloc] initWithRecordType:@"Person" predicate:subPredicate options:CKSubscriptionOptionsFiresOnRecordUpdate];
     CKNotificationInfo *nInfo = [CKNotificationInfo new];
-    nInfo.alertLocalizationKey = @"test";
+//    nInfo.alertLocalizationKey = @"my alert key";
+    nInfo.alertBody = @"this message is from icloud";
+    nInfo.desiredKeys = @[@"name", @"age"];
     nInfo.shouldBadge = YES;
+    subscription.notificationInfo = nInfo;
     [self.ckPublicDataBase saveSubscription:subscription completionHandler:^(CKSubscription * _Nullable subscription, NSError * _Nullable error) {
         if (error) {
             NSLog(@"save subscription error:%@", error.localizedDescription);

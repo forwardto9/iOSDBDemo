@@ -47,6 +47,11 @@
     if ([self.window.rootViewController isKindOfClass:[ViewController class]]) {
         ((ViewController *)self.window.rootViewController).managedObjectContext = self.managedObjectContext;
     }
+    
+    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert categories:nil];
+    [application registerUserNotificationSettings:notificationSettings];
+    [application registerForRemoteNotifications];
+    
     return YES;
 }
 
@@ -78,6 +83,8 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     CKNotification *cloudKitNotification = [CKNotification notificationFromRemoteNotificationDictionary:userInfo];
     NSString *body = cloudKitNotification.alertBody;
+    NSString *key = cloudKitNotification.alertLocalizationKey;
+    NSLog(@"key = %@, body = %@", key, body);
     if (cloudKitNotification.notificationType == CKNotificationTypeQuery) {
         NSLog(@"record is %@", [(CKQueryNotification *)cloudKitNotification recordID]);
     }
