@@ -24,8 +24,25 @@
 		C22721F61D6410AD0064CA9A /* KeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C22721F51D6410AD0064CA9A /* KeychainManager.m */; };
 		C22721F81D643B7F0064CA9A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22721F71D643B7F0064CA9A /* Security.framework */; };
 		C22CEB7D1EFA380D005A40B3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22CEB7C1EFA380D005A40B3 /* CloudKit.framework */; };
-		C22D2C1B227E8F05008E6094 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22D2C1A227E8F05008E6094 /* Realm.framework */; };
+		C22D2C1D227E924C008E6094 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22D2C1C227E924C008E6094 /* Realm.framework */; };
+		C22D2C1F227E92B7008E6094 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C22D2C1E227E92B7008E6094 /* libz.tbd */; };
+		C22D2C20227E9335008E6094 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22D2C1C227E924C008E6094 /* Realm.framework */; };
+		C22D2C21227E9335008E6094 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C22D2C1C227E924C008E6094 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C22D2C22227E9335008E6094 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C22D2C21227E9335008E6094 /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3CB238DF1D6022DD00DC82D3 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
@@ -55,7 +72,8 @@
 		C22721F71D643B7F0064CA9A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C22CEB7B1EFA380A005A40B3 /* iOSDBDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOSDBDemo.entitlements; sourceTree = "<group>"; };
 		C22CEB7C1EFA380D005A40B3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		C22D2C1A227E8F05008E6094 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = iOSDBDemo/Realm.framework; sourceTree = "<group>"; };
+		C22D2C1C227E924C008E6094 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = iOSDBDemo/Realm.framework; sourceTree = "<group>"; };
+		C22D2C1E227E92B7008E6094 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,11 +81,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C22D2C1F227E92B7008E6094 /* libz.tbd in Frameworks */,
+				C22D2C1D227E924C008E6094 /* Realm.framework in Frameworks */,
 				C2107C3F1D781C09005DFC4B /* libc++.tbd in Frameworks */,
 				C221A77A1D76B3C20074E45D /* CoreData.framework in Frameworks */,
+				C22D2C20227E9335008E6094 /* Realm.framework in Frameworks */,
 				C221A7751D75112A0074E45D /* libsqlite3.0.tbd in Frameworks */,
 				C22CEB7D1EFA380D005A40B3 /* CloudKit.framework in Frameworks */,
-				C22D2C1B227E8F05008E6094 /* Realm.framework in Frameworks */,
 				C22721F81D643B7F0064CA9A /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,7 +98,7 @@
 		3CD8024B1D5EF4C4002FC4E6 = {
 			isa = PBXGroup;
 			children = (
-				C22D2C1A227E8F05008E6094 /* Realm.framework */,
+				C22D2C1C227E924C008E6094 /* Realm.framework */,
 				C2107C3E1D781C09005DFC4B /* libc++.tbd */,
 				C221A7791D76B3C20074E45D /* CoreData.framework */,
 				C221A7741D75112A0074E45D /* libsqlite3.0.tbd */,
@@ -136,6 +156,7 @@
 		C22CEB781EFA3787005A40B3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C22D2C1E227E92B7008E6094 /* libz.tbd */,
 				C22CEB7C1EFA380D005A40B3 /* CloudKit.framework */,
 			);
 			name = Frameworks;
@@ -151,6 +172,7 @@
 				3CD802501D5EF4C4002FC4E6 /* Sources */,
 				3CD802511D5EF4C4002FC4E6 /* Frameworks */,
 				3CD802521D5EF4C4002FC4E6 /* Resources */,
+				C22D2C22227E9335008E6094 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
