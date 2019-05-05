@@ -1,0 +1,9 @@
+*.xcuserstate
+
+*.xcscheme
+
+xcuserdata/
+
+xcshareddata/
+
+Realm.framework

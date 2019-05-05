@@ -24,7 +24,7 @@
 		C22721F61D6410AD0064CA9A /* KeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C22721F51D6410AD0064CA9A /* KeychainManager.m */; };
 		C22721F81D643B7F0064CA9A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22721F71D643B7F0064CA9A /* Security.framework */; };
 		C22CEB7D1EFA380D005A40B3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22CEB7C1EFA380D005A40B3 /* CloudKit.framework */; };
-		C2C21D6B1D79422F00ADCC9E /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C21D6A1D79422F00ADCC9E /* Realm.framework */; };
+		C22D2C1B227E8F05008E6094 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C22D2C1A227E8F05008E6094 /* Realm.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +43,6 @@
 		3CD8026E1D5EF526002FC4E6 /* DBType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBType.h; sourceTree = "<group>"; };
 		3CD8026F1D5F0037002FC4E6 /* DemoPlist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DemoPlist.plist; sourceTree = "<group>"; };
 		C2107C3E1D781C09005DFC4B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		C2107C401D78589D005DFC4B /* Core Data, FMDB, Realm 性能对比.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "Core Data, FMDB, Realm 性能对比.pdf"; path = "iOSDBDemo/Core Data, FMDB, Realm 性能对比.pdf"; sourceTree = "<group>"; };
 		C221A7741D75112A0074E45D /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		C221A7771D76B2B90074E45D /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		C221A7791D76B3C20074E45D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -56,7 +55,7 @@
 		C22721F71D643B7F0064CA9A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C22CEB7B1EFA380A005A40B3 /* iOSDBDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOSDBDemo.entitlements; sourceTree = "<group>"; };
 		C22CEB7C1EFA380D005A40B3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		C2C21D6A1D79422F00ADCC9E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = iOSDBDemo/Realm.framework; sourceTree = "<group>"; };
+		C22D2C1A227E8F05008E6094 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = iOSDBDemo/Realm.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +67,8 @@
 				C221A77A1D76B3C20074E45D /* CoreData.framework in Frameworks */,
 				C221A7751D75112A0074E45D /* libsqlite3.0.tbd in Frameworks */,
 				C22CEB7D1EFA380D005A40B3 /* CloudKit.framework in Frameworks */,
+				C22D2C1B227E8F05008E6094 /* Realm.framework in Frameworks */,
 				C22721F81D643B7F0064CA9A /* Security.framework in Frameworks */,
-				C2C21D6B1D79422F00ADCC9E /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,8 +78,7 @@
 		3CD8024B1D5EF4C4002FC4E6 = {
 			isa = PBXGroup;
 			children = (
-				C2C21D6A1D79422F00ADCC9E /* Realm.framework */,
-				C2107C401D78589D005DFC4B /* Core Data, FMDB, Realm 性能对比.pdf */,
+				C22D2C1A227E8F05008E6094 /* Realm.framework */,
 				C2107C3E1D781C09005DFC4B /* libc++.tbd */,
 				C221A7791D76B3C20074E45D /* CoreData.framework */,
 				C221A7741D75112A0074E45D /* libsqlite3.0.tbd */,
@@ -195,6 +193,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

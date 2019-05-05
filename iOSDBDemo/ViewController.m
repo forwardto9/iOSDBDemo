@@ -513,8 +513,11 @@ static int callback (void* data,int argc,char** argv,char**columnName) {
     @try {
         // if the table name is incorrect, this method will raise an exception and the application will terminal.
         // A fetch request must have an entity.
+        // 声明要操作的表名
         NSEntityDescription *entity = [NSEntityDescription entityForName:kTableName inManagedObjectContext:context];
+        // 声明一个操作请求
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        // Specifying Fetch Constraints，NSFetchRequest实例对象的属性支持条件查询，相当于 SQL中的 where 语句
         request.includesPropertyValues = NO;
         request.entity = entity;
         NSError *error = nil;
